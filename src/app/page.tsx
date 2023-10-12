@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 async function fethData() {
   try {
-    const response = await fetch("https://localhost:7040/api/GetInteractions/");
+    const response = await fetch("https://localhost:7040/api/WeatherForecast/GetNewInteraction");
     if (!response.ok) {
       throw new Error("Error en la solicitud: " + response.status);
     }
@@ -20,14 +20,19 @@ export default function Home() {
   const [contentColor, setContentColor] = useState("");
   const [textColor, setTextColor] = useState("");
   const [reaccion, setReaccion] = useState("");
+  const [message, setMessage] = useState(true);
+  const [messageType, setMessageType] = useState(true);
   useEffect(() => {
     async function doFetch() {
-      const api = await fethData();
-      setContentColor(api[2].contentColor);
-      setTextColor(api[7].contentColor);
+      await fethData().then((res) => {
+        setMessage(res.message);
+        setMessageType(res.messageType);
+        setContentColor(res.contentColor);
+        setTextColor(res.textColor);
+      }
+      );
     }
-    //Utilizar cuando funcione la api
-    //doFetch();
+    doFetch();
   }, []);
 
   // new reaction
@@ -49,17 +54,16 @@ export default function Home() {
       }
     );
     const data = await res.json();
-    console.log(data);
   };
 
   return (
     <main
-      style={{ background: contentColor }}
+      style={{ background:  contentColor }}
       className="flex min-h-screen flex-col items-center justify-between box-border p-24"
     >
       <div className="p-40 rounded-2xl ">
-        <h1 style={{ color: textColor }} className="text-5xl font-bold ">
-          ES TU DIA DE SUERTE
+        <h1 style={{ color: textColor }} className="text-5xl font-bold">
+          {message}
         </h1>
       </div>
       <form onSubmit={onSubmit} className="flex justify-between gap-28">
