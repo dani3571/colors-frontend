@@ -1,96 +1,31 @@
 "use client";
-import { useEffect, useState } from "react";
+import { auth } from "@/../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Login from "@/app/login";
+import Loading from "@/app/components/loading";
+import { useState, useEffect } from "react";
+import SubmitMessage from "@/app/SubmitMessage";
+import URL from "@/app/utils/api/baseUrl";
+import Interaction from "@/app/Interaction";
 
-import { Button } from "@mui/material";
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-async function fethData() {
-  try {
-    const response = await fetch("https://localhost:7040/api/WeatherForecast/GetNewInteraction");
-    if (!response.ok) {
-      throw new Error("Error en la solicitud: " + response.status);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error en la solicitud:", error);
-  }
-}
-
-export default function Home() {
-  const [contentColor, setContentColor] = useState("");
-  const [textColor, setTextColor] = useState("");
-  const [reaccion, setReaccion] = useState("");
-  const [message, setMessage] = useState(true);
-  const [messageType, setMessageType] = useState(true);
+function HomePage() {
+  const [hasReaction, setHasReaction] = useState(false);
+  const [user, loading] = useAuthState(auth);
   useEffect(() => {
     async function doFetch() {
-      await fethData().then((res) => {
-        setMessage(res.message);
-        setMessageType(res.messageType);
-        setContentColor(res.contentColor);
-        setTextColor(res.textColor);
-      }
+      const response = await fetch(
+        `${URL.baseUrl}WeatherForecast/GetUserInteraction/${user?.email}`
       );
+      const data = await response.json();
+      console.log(data);
+      setHasReaction(data.hasReaction);
     }
     doFetch();
-  }, []);
-
-  // new reaction
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
-    //const reaction = e.target.reaccion.value;
-    //console.log("Reacción a enviar:", reaction);
-    if (reaccion == "") {
-      return;
-    }
-    const res = await fetch(
-      "https://localhost:7040/api/WeatherForecast/CreateInteraction",
-      {
-        method: "POST",
-        body: JSON.stringify({ reaccion, contentColor, textColor }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-  };
-
-  return (
-    <main
-      style={{ background:  contentColor }}
-      className="flex min-h-screen flex-col items-center justify-between box-border p-24"
-    >
-      <div className="p-40 rounded-2xl ">
-        <h1 style={{ color: textColor }} className="text-5xl font-bold">
-          {message}
-        </h1>
-      </div>
-      <form onSubmit={onSubmit} className="flex justify-between gap-28">
-        <Button
-          id="reaccion"
-          name="reaccion"
-          variant="contained"
-          className="text-4xl p-6"
-          onClick={() => {
-            setReaccion("Like");
-          }}
-        >
-          Me gusta
-        </Button>
-        <Button
-          id="reaccion"
-          name="reaccion"
-          variant="contained"
-          color="error"
-          className="text-4xl p-6"
-          onClick={() => {
-            setReaccion("Dislike");
-          }}
-        >
-          No me gusta
-        </Button>
-      </form>
-    </main>
-  );
+  }, [user]);
+  if (loading) return <Loading />;
+  if (!user) return <Login />;
+  if (hasReaction) return <SubmitMessage />;
+  return <Interaction />;
 }
+
+export default HomePage;
