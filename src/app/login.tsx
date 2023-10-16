@@ -10,32 +10,35 @@ function Login() {
   initFireBase();
   const router = useRouter();
   const signIn = async () => {
-    await signInWithPopup(auth, provider).catch((e) => {
+    await signInWithPopup(auth, provider).catch((e: any) => {
       console.log(e);
     });
-    const userResponse = await fetch(
-      `${URL.baseUrl}WeatherForecast/GetUserByEmail/${
-        getAuth().currentUser?.email
-      }`
-    );
-    if (!userResponse.ok) {
-      throw new Error("Error en la solicitud: " + userResponse.status);
-    }
-    if (userResponse.status == 204) {
-      const response = await fetch(
-        `${URL.baseUrl}WeatherForecast/CreateNewUser`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: getAuth().currentUser?.email,
-          }),
-        }
+    if(getAuth().currentUser != null)
+    {
+      const userResponse = await fetch(
+        `${URL.baseUrl}WeatherForecast/GetUserByEmail/${
+          getAuth().currentUser?.email
+        }`
       );
+      if (!userResponse.ok) {
+        throw new Error("Error en la solicitud: " + userResponse.status);
+      }
+      if (userResponse.status == 204) {
+        await fetch(
+          `${URL.baseUrl}WeatherForecast/CreateNewUser`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: getAuth().currentUser?.email,
+            }),
+          }
+        );
+      }
+      router.refresh();
     }
-    router.refresh();
   };
 
   return (
