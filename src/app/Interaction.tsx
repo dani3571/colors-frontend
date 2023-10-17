@@ -10,7 +10,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 async function fethData() {
   try {
     const response = await fetch(
-      "https://localhost:7040/api/WeatherForecast/GetNewInteraction"
+      `${URL.baseUrl}WeatherForecast/GetNewInteraction`
     );
     if (!response.ok) {
       throw new Error("Error en la solicitud: " + response.status);
