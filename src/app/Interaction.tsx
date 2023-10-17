@@ -113,14 +113,15 @@ function Interaction() {
           id="reaccion"
           name="reaccion"
           variant="contained"
-          className="text-4xl p-6"
+          className=""
           type="submit"
           disabled={disabled}
           onClick={() => {
             setReaccion("Like");
           }}
         >
-          Me gusta
+          <p className="text-3xl px-6">
+          Me gusta</p>
         </Button>
         <Button
           id="reaccion"
@@ -133,8 +134,9 @@ function Interaction() {
           onClick={() => {
             setReaccion("Dislike");
           }}
-        >
-          No me gusta
+        ><p className="text-3xl px-6">
+        
+        No me gusta</p>
         </Button>
       </form>
     </main>
