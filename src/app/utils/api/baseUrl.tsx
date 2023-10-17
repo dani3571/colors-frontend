@@ -2,7 +2,7 @@ interface IApi {
   baseUrl: string;
 }
 const URL: IApi = {
-  baseUrl: "https://localhost:7040/api/",
+  baseUrl: "https://www.quotes.somee.com/api/",
 };
 
 export default URL;
