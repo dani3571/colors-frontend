@@ -53,6 +53,9 @@ function Interaction() {
     const notification = toast.loading(`Se esta guardando su interacción...`);
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         reaccion: reaccion,
         contentColor: contentColor,
@@ -60,9 +63,6 @@ function Interaction() {
         reactionType: reactionType,
         imagen: getAuth().currentUser?.photoURL,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
     const data = await res.json();
 
