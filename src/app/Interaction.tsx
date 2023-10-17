@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import URL from "./utils/api/baseUrl";
 import { auth, db } from "../../firebase";
+import { getAuth } from "firebase/auth";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 async function fethData() {
   try {
@@ -53,10 +54,11 @@ function Interaction() {
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
       method: "POST",
       body: JSON.stringify({
-        reaccion,
-        contentColor,
-        textColor,
-        reactionType,
+        reaccion: reaccion,
+        contentColor: contentColor,
+        textColor: textColor,
+        reactionType: reactionType,
+        imagen: getAuth().currentUser?.photoURL,
       }),
       headers: {
         "Content-Type": "application/json",
