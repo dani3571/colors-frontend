@@ -13,28 +13,6 @@ function Login() {
     await signInWithPopup(auth, provider).catch((e: any) => {
       console.log(e);
     });
-    if (getAuth().currentUser != null) {
-      const userResponse = await fetch(
-        `${URL.baseUrl}WeatherForecast/GetUserByEmail/${
-          getAuth().currentUser?.email
-        }`
-      );
-      if (!userResponse.ok) {
-        throw new Error("Error en la solicitud: " + userResponse.status);
-      }
-      if (userResponse.status == 204) {
-        await fetch(`${URL.baseUrl}WeatherForecast/CreateNewUser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: getAuth().currentUser?.email,
-          }),
-        });
-      }
-      router.refresh();
-    }
   };
 
   return (

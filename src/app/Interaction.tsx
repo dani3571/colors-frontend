@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import URL from "./utils/api/baseUrl";
 import { auth, db } from "../../firebase";
 import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 async function fethData() {
   try {
@@ -51,6 +52,7 @@ function Interaction() {
     setDisabled(true);
 
     const notification = toast.loading(`Se esta guardando su interacción...`);
+    const imgUrl = getAuth().currentUser?.photoURL;
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
       method: "POST",
       headers: {
@@ -61,11 +63,28 @@ function Interaction() {
         contentColor: contentColor,
         textColor: textColor,
         reactionType: reactionType,
-        imagen: getAuth().currentUser?.photoURL,
+        imagen: imgUrl,
       }),
     });
     const data = await res.json();
-
+    const userEmail = getAuth().currentUser?.email;
+    const userResponse = await fetch(
+      `${URL.baseUrl}WeatherForecast/GetUserByEmail/${userEmail}`
+    );
+    if (!userResponse.ok) {
+      throw new Error("Error en la solicitud: " + userResponse.status);
+    }
+    if (userResponse.status == 204) {
+      await fetch(`${URL.baseUrl}WeatherForecast/CreateNewUser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+        }),
+      });
+    }
     setDisabled(false);
     if (data.error) {
       toast.error(data.error, {
@@ -76,7 +95,7 @@ function Interaction() {
         id: notification,
       });
     }
-    router.refresh();
+    router.replace("/");
   };
 
   return (

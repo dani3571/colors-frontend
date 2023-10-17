@@ -8,6 +8,7 @@ import SubmitMessage from "@/app/SubmitMessage";
 import URL from "@/app/utils/api/baseUrl";
 import Interaction from "@/app/Interaction";
 
+import { useRouter } from "next/navigation";
 function HomePage() {
   const [hasReaction, setHasReaction] = useState(false);
   const [user, loading] = useAuthState(auth);
@@ -17,7 +18,6 @@ function HomePage() {
         `${URL.baseUrl}WeatherForecast/GetUserInteraction/${user?.email}`
       );
       const data = await response.json();
-      console.log(data);
       setHasReaction(data.hasReaction);
     }
     doFetch();
