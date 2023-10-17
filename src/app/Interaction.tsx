@@ -85,7 +85,6 @@ function Interaction() {
         }),
       });
     }
-    setDisabled(false);
     if (data.error) {
       toast.error(data.error, {
         id: notification,
@@ -95,7 +94,8 @@ function Interaction() {
         id: notification,
       });
     }
-    router.replace("/");
+    setDisabled(false);
+    window.location.reload();
   };
 
   return (
