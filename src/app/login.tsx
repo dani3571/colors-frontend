@@ -24,6 +24,7 @@ function Login() {
       }
       if (userResponse.status == 204) {
         await fetch(`${URL.baseUrl}WeatherForecast/CreateNewUser`, {
+          mode: "cors",
           method: "POST",
           headers: {
             "Content-Type": "application/json",

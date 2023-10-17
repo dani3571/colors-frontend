@@ -52,6 +52,7 @@ function Interaction() {
 
     const notification = toast.loading(`Se esta guardando su interacción...`);
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
+      mode: "cors",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
