@@ -4,9 +4,8 @@ import { Button } from "@mui/material";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import URL from "./utils/api/baseUrl";
-import { auth, db } from "../../firebase";
 import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
+import obtainGama from "./utils/api/getBrand";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 async function fethData() {
   try {
@@ -50,7 +49,6 @@ function Interaction() {
       return;
     }
     setDisabled(true);
-
     const notification = toast.loading(`Se esta guardando su interacción...`);
     const imgUrl = getAuth().currentUser?.photoURL;
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
@@ -64,6 +62,7 @@ function Interaction() {
         textColor: textColor,
         reactionType: reactionType,
         imagen: imgUrl,
+        gama: obtainGama()
       }),
     });
     const data = await res.json();
