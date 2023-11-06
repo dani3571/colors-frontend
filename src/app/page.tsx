@@ -8,7 +8,6 @@ import SubmitMessage from "@/app/SubmitMessage";
 import URL from "@/app/utils/api/baseUrl";
 import Interaction from "@/app/Interaction";
 
-import { useRouter } from "next/navigation";
 function HomePage() {
   const [hasReaction, setHasReaction] = useState(false);
   const [user, loading] = useAuthState(auth);

@@ -23,7 +23,6 @@ async function fethData() {
 }
 
 function Interaction() {
-  const router = useRouter();
   const [contentColor, setContentColor] = useState("");
   const [textColor, setTextColor] = useState("");
   const [reaccion, setReaccion] = useState("");
@@ -43,6 +42,7 @@ function Interaction() {
   }, []);
 
   // new reaction
+  const userAgent = navigator.userAgent;
   const onSubmit = async (e: any) => {
     e.preventDefault();
     if (reaccion == "") {
@@ -62,7 +62,7 @@ function Interaction() {
         textColor: textColor,
         reactionType: reactionType,
         imagen: imgUrl,
-        gama: obtainGama()
+        gama: obtainGama(userAgent)
       }),
     });
     const data = await res.json();

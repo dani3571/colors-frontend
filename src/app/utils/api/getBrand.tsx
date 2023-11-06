@@ -1,5 +1,5 @@
-const userAgent = navigator.userAgent;
-function obtainGama() {
+
+function obtainGama(userAgent: String) {
     if (userAgent.toLowerCase().includes("iphone") || userAgent.toLowerCase().includes("ipad") || userAgent.toLowerCase().includes("ipod")) {
         return "gama alta";
     } else if (userAgent.toLowerCase().includes("samsung")) {
