@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import URL from "./utils/api/baseUrl";
 import { getAuth } from "firebase/auth";
 import obtainGama from "./utils/api/getBrand";
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 async function fethData() {
   try {
     const response = await fetch(
