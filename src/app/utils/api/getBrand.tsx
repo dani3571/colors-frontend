@@ -29,11 +29,11 @@ function obtainGama(userAgent: String) {
     return "gama baja";
   } else if (userAgent.toLowerCase().includes("blackberry")) {
     return "gama baja";
-  } else if (userAgent.toLowerCase().includes("Windows")) {
+  } else if (userAgent.toLowerCase().includes("windows")) {
     return "gama media";
-  } else if (userAgent.toLowerCase().includes("Macintosh")) {
+  } else if (userAgent.toLowerCase().includes("macintosh")) {
     return "gama alta";
-  } else if (userAgent.toLowerCase().includes("Linux")) {
+  } else if (userAgent.toLowerCase().includes("linux")) {
     return "gama media";
   } else {
     return "marca no registrada";
