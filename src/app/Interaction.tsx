@@ -50,7 +50,7 @@ function Interaction() {
     }
     setDisabled(true);
     const notification = toast.loading(`Se esta guardando su interacción...`);
-    const imgUrl = getAuth().currentUser?.photoURL;
+    const imgUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.es%2Ficono-gratis%2Fperfil_3135715&psig=AOvVaw3u8JNiq67xmYxaatFmRFz2&ust=1700337855439000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJj9xqHqy4IDFQAAAAAdAAAAABAJ";
     const res = await fetch(`${URL.baseUrl}WeatherForecast/CreateInteraction`, {
       method: "POST",
       headers: {
@@ -66,24 +66,7 @@ function Interaction() {
       }),
     });
     const data = await res.json();
-    const userEmail = getAuth().currentUser?.email;
-    const userResponse = await fetch(
-      `${URL.baseUrl}WeatherForecast/GetUserByEmail/${userEmail}`
-    );
-    if (!userResponse.ok) {
-      throw new Error("Error en la solicitud: " + userResponse.status);
-    }
-    if (userResponse.status == 204) {
-      await fetch(`${URL.baseUrl}WeatherForecast/CreateNewUser`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: userEmail,
-        }),
-      });
-    }
+    
     if (data.error) {
       toast.error(data.error, {
         id: notification,
