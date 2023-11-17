@@ -1,4 +1,7 @@
-function obtainGama(userAgent: String) {
+
+function obtainGama() {
+  const string = navigator.userAgent;
+  const userAgent = string;
   if (
     userAgent.toLowerCase().includes("iphone") ||
     userAgent.toLowerCase().includes("ipad") ||
