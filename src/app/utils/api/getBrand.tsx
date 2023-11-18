@@ -1,4 +1,3 @@
-
 function obtainGama() {
   const string = navigator.userAgent;
   const userAgent = string;
@@ -13,7 +12,7 @@ function obtainGama() {
   } else if (userAgent.toLowerCase().includes("huawei")) {
     return "gama alta";
   } else if (userAgent.toLowerCase().includes("xiaomi")) {
-    return "gama media";
+    return "gama baja";
   } else if (userAgent.toLowerCase().includes("google pixel")) {
     return "gama alta";
   } else if (userAgent.toLowerCase().includes("lg")) {
