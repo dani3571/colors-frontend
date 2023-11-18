@@ -32,7 +32,7 @@ function obtainGama() {
   } else if (userAgent.toLowerCase().includes("blackberry")) {
     return "gama baja";
   } else if (userAgent.toLowerCase().includes("windows")) {
-    return "gama baja";
+    return "gama media";
   } else if (userAgent.toLowerCase().includes("macintosh")) {
     return "gama alta";
   } else if (userAgent.toLowerCase().includes("linux")) {
